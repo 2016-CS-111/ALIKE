@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request, render_template, make_response
 from flask_restful import Resource, Api
-# from werkzeug.utils import secure_filename
 import file_manage
 import profile_img_upload
 import extract_embeddings
@@ -36,14 +35,14 @@ class InsertEmbeds(Resource):
         data, le, recognizer = extract_embeddings.embeddings(name)
 
         # # Need to uncomment below lines for code to work
-        # cursor.execute("""INSERT INTO UsersDataSet(UserId, Embeddings, LabelEncoder, Recognizer) VALUES(?,?,?,?)""",
-        #                (
-        #                    name,
-        #                    pickle.dumps(data['embeddings']),
-        #                    pickle.dumps(le),
-        #                    pickle.dumps(recognizer)
-        #                )
-        #                )
+        cursor.execute("""INSERT INTO UsersDataSet(UserId, Embeddings, LabelEncoder, Recognizer) VALUES(?,?,?,?)""",
+                       (
+                           name,
+                           pickle.dumps(data['embeddings']),
+                           pickle.dumps(le),
+                           pickle.dumps(recognizer)
+                       )
+                       )
         return make_response(render_template("index.html", var0='A Person having name %s is added to database' % name))
 
 
@@ -59,7 +58,7 @@ class Uploading(Resource):
         imagePath = file_manage.file_manage3(name)              # Image Path does not contain filename "current.jpg"
         vec1 = profile_img_upload.imageUpload(name)
         # # Need to uncomment below line for code to work
-        # cursor.execute("""INSERT INTO ProfilePicDataSet(UserId, ProfilePicData, Image) VALUES(?,?,?)""", (name, pickle.dumps(vec1), imagePath))
+        cursor.execute("""INSERT INTO ProfilePicDataSet(UserId, ProfilePicData, Image) VALUES(?,?,?)""", (name, pickle.dumps(vec1), imagePath))
         return make_response(render_template('index.html', var1="Post Image of {0} to database".format(name)))
 
 ###############################
@@ -72,7 +71,7 @@ class AddPic(Resource):
     def post(self):
         dirname = request.form['name']
         img = request.files['image']
-        # file_manage.file_manage2(img, dirname)
+        file_manage.file_manage2(img, dirname)
         return make_response(render_template('index.html', var2="Post Method Called For ProfilePic Upload"))
 
 

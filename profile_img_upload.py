@@ -32,14 +32,9 @@ def imageUpload(dirname):
     # loop over the detections
     # extract the confidence (i.e., probability) associated with the
     # prediction
-    confidence = detections[0, 0, 1, 2]
     # filter out weak detections
     # compute the (x, y)-coordinates of the bounding box for the
     # face
-    box = detections[0, 0, 1, 3:7] * np.array([w, h, w, h])
-    (startX, startY, endX, endY) = box.astype("int")
-    face = image[startY:endY, startX:endX]
-    (fH, fW) = face.shape[:2]
 
     vec = 0
     for i in range(0, detections.shape[2]):

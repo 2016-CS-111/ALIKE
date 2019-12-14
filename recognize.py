@@ -9,7 +9,6 @@
 import numpy as np
 import pickle
 import time
-import pyodbc
 
 
 def recognize(dirname, cursor):
@@ -41,9 +40,6 @@ def recognize(dirname, cursor):
         j = np.argmax(preds)
         proba = preds[j]
         name = le.classes_[j]
-        print(preds)
-        print(proba)
-        print(name, '\n')
         # if name != "unknown" and name != dirname:
         #     similarList.append(name)
         #     cursor.execute("""INSERT INTO SimilarPerson(UserId, SimilarPerson) VALUES(?,?)""", (dirname, name))
