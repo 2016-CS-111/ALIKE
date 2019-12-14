@@ -1,0 +1,56 @@
+pip install virtualenv
+pip install virtualenvwrapper-win
+virtualenv env
+env\scripts\activate
+pip install gunicorn
+git init
+.gitignore                   (Write env inside file And Also create Procfile and write web:gunicorn deploy:app)
+
+
+[LABEL Loop]
+git add .
+git commit -m "Commited! FOr first time"
+heroku create
+heroku open
+pip freeze > requirements.txt
+
+git push heroku master         (And follow Loop LABEL to update you data except heroku commands)
+
+
+
+
+UPDATE PIP PACKAGES IN ANY DIRECTORY (for other developers as well):
+pip freeze > requirements.txt
+pip install -r requirements.txt --upgrade
+
+
+
+
+
+
+
+FOR PYODBC ERROR:
+
+Create a file named Aptfile in the root directory of your project. The content of the file should be:
+unixodbc
+unixodbc-dev
+python-pyodbc
+
+In CMD:
+1. heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
+2. git push heroku master
+
+
+
+
+Launching...
+remote:        Released v12
+remote:        https://damp-reef-74259.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/damp-reef-74259.git
+   01f4c89..fee8304  master -> master
+
+
+
+
