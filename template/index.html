@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+    <link type="text/css" href="style.css">
+</head>
+<body>
+<!--enctype="multipart/form-data"-->
+    <div align="center">
+        <h1>ALIKE APP</h1>
+        <form id="form" action="http://127.0.0.1:3000/addpic" method="post" enctype="multipart/form-data">
+            <div>
+                Name: <input type="text" name="name" id="name_id">
+            </div>
+            <label>Select Image</label>
+            <div>
+                <input type="file" name="image" id="image_id">
+<!--                <label for="image">Select Images...</label>-->
+            </div>
+            <div style="align:left;margin-left:100px">
+                <button type="submit" name="submit">Upload</button>
+                <br>
+                <br>
+                <button type="submit" name="submit1" formaction="http://127.0.0.1:3000/insertembeds">Train</button>
+                <button type="submit" name="submit2" formaction="http://127.0.0.1:3000/uploading">Upload Image Database</button>
+                <button type="submit" name="submit3" formaction="http://127.0.0.1:3000/comparing">Compare</button>
+                <br><br>
+                <button onclick="http://127.0.0.1:3000/">Home</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div>
+        <p>{{var0}}</p>
+        <p>{{var1}}</p>
+        <p>{{var2}}</p>
+        <p>{{var3}}</p>
+
+    </div>
+</body>
+</html>
