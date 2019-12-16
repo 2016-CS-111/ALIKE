@@ -16,7 +16,7 @@ FLASK SQLALCHEMY
 """
 
 # # change to dev or prod for development and production respectively
-ENV = 'prd'
+ENV = 'prod'
 if ENV == 'prod':
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hsgcsagngxnthk:93a627e4a44e8f1e7b6cedbc7dac1046df54b23ae1411bc12306f54c969be094@ec2-174-129-255-7.compute-1.amazonaws.com:5432/dduu961c9ahm1g'
@@ -159,14 +159,6 @@ class Comparing(Resource):
         # print("NAME: ", dict1["name"])
         return make_response(render_template("index.html", var3="Comparison_Prediction: {0}".format(dict1)))
 
-
-# Deleting the whole user
-class Deletion(Resource):
-    def get(self):
-        return jsonify({'message': 'Get Method Called for Deletion'})
-
-    def post(self):
-        return make_response(render_template("index.html", var4="User Removed!"))
 
 
 
