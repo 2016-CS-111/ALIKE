@@ -32,8 +32,8 @@ def embeddings(dirname):
     # grab the paths to the input images in our dataset
     print("[INFO] quantifying faces...")
     dataset = "../dataset_" + dirname
-    path_dataset = os.getcwd() + '\\dataset_' + dirname
-    unknowns_paths = os.getcwd() + '\\unknown'              #This path is totally fine
+    path_dataset = os.getcwd() + '/dataset_' + dirname
+    unknowns_paths = os.getcwd() + '/unknown'              #This path is totally fine
 
     #Images Paths for User and an unknown
     imagePaths = list(paths.list_images(path_dataset))

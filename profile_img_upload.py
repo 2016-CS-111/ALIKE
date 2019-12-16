@@ -7,7 +7,7 @@ import cv2
 
 def imageUpload(dirname):
 
-    imagePath = os.getcwd() + "\\profile_" + dirname + "\\current.jpg"                                        # C:\Users\usama\Desktop\Heroku\App\profile_adrian/download.jpg
+    imagePath = os.getcwd() + "/profile_" + dirname + "/current.jpg"                                        # C:\Users\usama\Desktop\Heroku\App\profile_adrian/download.jpg
     args_confidence = 0.9
 
     print("[INFO] loading face detector...")

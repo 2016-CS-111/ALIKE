@@ -9,7 +9,7 @@ WORKING_PATH = os.getcwd()
 
 #Insert Embeds
 def file_manage1(dirname):
-    path_dataset = WORKING_PATH + '\\dataset_' + dirname
+    path_dataset = WORKING_PATH + '/dataset_' + dirname
     list_of_files = os.listdir(path_dataset)
     if len(list_of_files) < 6:
         print("Please Add 7 Pic at least!")
@@ -19,8 +19,8 @@ def file_manage1(dirname):
 
 # Add Profile Pic to Folder
 def file_manage2(img, dirname):
-    path_profile = WORKING_PATH + '\\profile_' + dirname
-    path_dataset = WORKING_PATH + '\\dataset_' + dirname
+    path_profile = WORKING_PATH + '/profile_' + dirname
+    path_dataset = WORKING_PATH + '/dataset_' + dirname
 
     if not path.isdir(path_dataset):
         os.mkdir(path_dataset)
@@ -28,7 +28,7 @@ def file_manage2(img, dirname):
     if not path.isdir(path_profile):
         os.mkdir(path_profile)
     list_of_files = os.listdir(path_dataset)
-    full_path = [path_dataset + '\\{0}'.format(x) for x in list_of_files]
+    full_path = [path_dataset + '/{0}'.format(x) for x in list_of_files]
     if len(list_of_files) <= 6:
         print("Please Add 7 Pics at least!")
 
@@ -51,15 +51,15 @@ def file_manage2(img, dirname):
             rand = random.randint(1, 100)
             filename, extension = os.path.splitext(files)   #filenam = current , extention = .jpg
             if files == (img.filename) or files == (x for x in list_of_files) and (filename not in repeated_files):
-                os.rename(path_dataset + '\\' + files, path_dataset + '\\IMG_' + str(rand).zfill(3) + extension)
+                os.rename(path_dataset + '/' + files, path_dataset + '/IMG_' + str(rand).zfill(3) + extension)
 
         #if Path File is available or not in first time adding profile pic
         if path.isfile(path_profile) and (not path.isfile(path_dataset)):       #Condition for empty dataset folder
-            shutil.copy(path_profile + '\\' + img.filename, path_dataset)
-            img.save(path_profile + "\\" + img.filename)
+            shutil.copy(path_profile + '/' + img.filename, path_dataset)
+            img.save(path_profile + "/" + img.filename)
         else:
-            img.save(path_profile + "\\" + img.filename)
-            shutil.copy(path_profile + '\\' + img.filename, path_dataset)
+            img.save(path_profile + "/" + img.filename)
+            shutil.copy(path_profile + '/' + img.filename, path_dataset)
 
 
         ## Removal of Old Files in Dataset And Renaming them all
@@ -73,5 +73,5 @@ def file_manage2(img, dirname):
 
 #Uploading Profile Pic to Database
 def file_manage3(dirname):
-    path_profile = WORKING_PATH + '\\profile_' + dirname
+    path_profile = WORKING_PATH + '/profile_' + dirname
     return path_profile
