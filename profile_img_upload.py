@@ -35,7 +35,6 @@ def imageUpload(dirname):
     # filter out weak detections
     # compute the (x, y)-coordinates of the bounding box for the
     # face
-
     vec = 0
     for i in range(0, detections.shape[2]):
         confidence = detections[0, 0, i, 2]
@@ -61,7 +60,5 @@ def imageUpload(dirname):
             faceBlob = cv2.dnn.blobFromImage(face, 1.0 / 255, (96, 96), (0, 0, 0), swapRB=True, crop=False)
             embedder.setInput(faceBlob)
             vec = embedder.forward()
-            # cursor.execute("""INSERT INTO ProfilePicDataSet(UserId, ProfilePicData) VALUES(?,?)""", (dirname, pickle.dumps(vec)))
-            # cursor.commit()
 
     return vec

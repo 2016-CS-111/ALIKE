@@ -17,11 +17,6 @@ def recognize(dirname, db):
     similarList = []
     i_list = bytes(0)
 
-    # # Need to change the query because at that time we had not had primary key(UserId) to take so we used the concept of subquery
-    # query0 = cursor.execute("SELECT UsersDataSet.UserId, "
-    #                               "(SELECT ProfilePicData From ProfilePicDataSet WHERE ProfilePicDataSet.UserId = '"+dirname+"')"
-    #                           "FROM UsersDataSet").fetchall()
-
     # # Query for list of UserId's in a list
     query_ids = db.session.query(deploy.ProfilePicDataSet.UserId)
     for row in query_ids:
@@ -42,7 +37,6 @@ def recognize(dirname, db):
     start = time.time()
     for j in range(len(listUsersIds)):
         # # Query for Loading the Models for every User
-        # query = cursor.execute("SELECT Recognizer, LabelEncoder FROM UsersDataSet WHERE UserId = '"+listUsersIds[j]+"'").fetchall()
         query = db.session.query(deploy.UsersDataSet.Recognizer, deploy.UsersDataSet.LabelEncoder).filter_by(UserId=listUsersIds[j])
         reco = query[0][0]
         lble = query[0][1]
@@ -65,5 +59,6 @@ def recognize(dirname, db):
             list_proba.append(proba*100)
     end = time.time()
     # print(end - start)
-    dict1 = {"name": list_name, "proba": list_proba}
+    # dict1 = {"name": list_name, "proba": list_proba}
+    dict1 = dict(zip(list_name, list_proba))
     return dict1

@@ -2,45 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Upload Image</title>
-    <link type="text/css" href="style.css">
+    <title>ALIKE APP</title>
+    <style>
+        div {
+          border: 2px solid;
+          padding: 20px;
+          width: 500px;
+          font-size: large;
+          background-color:#E6E6FA;
+          margin: auto;
+        }
+    </style>
 </head>
-<body style="background-color:#E6E6FA">
+<body style="background-color:#E6E6FA;">
 <!--enctype="multipart/form-data"-->
-    <div align="center">
+<!--    <div align="center">-->
+    <div style="padding-right: 80px;">
         <h1>ALIKE APP</h1>
-<!--        <form id="form" action="https://alikefaceapp.herokuapp.com/addpic" method="post" enctype="multipart/form-data">-->
-        <form id="form" action="http://127.0.0.1:3000/addpic" method="post" enctype="multipart/form-data">
-            <div>
-                Name: <input type="text" name="name" id="name_id">
-            </div>
-            <label>Select Image</label>
-            <div>
-                <input type="file" name="image" id="image_id">
-<!--                <label for="image">Select Images...</label>-->
-            </div>
-            <div style="align:left;margin-left:100px">
-                <button type="submit" name="submit">Upload</button>
-                <br>
-                <br>
-<!--                <button type="submit" name="submit1" formaction="https://alikefaceapp.herokuapp.com/insertembeds">Train</button>-->
-<!--                <button type="submit" name="submit2" formaction="https://alikefaceapp.herokuapp.com/uploading">Upload Image Database</button>-->
-<!--                <button type="submit" name="submit3" formaction="https://alikefaceapp.herokuapp.com/comparing">Compare</button>-->
-                <button type="submit" name="submit1" formaction="http://127.0.0.1:3000/insertembeds">Train</button>
-                <button type="submit" name="submit2" formaction="http://127.0.0.1:3000/uploading">Upload Image Database</button>
-                <button type="submit" name="submit3" formaction="http://127.0.0.1:3000/comparing">Compare</button>
-                <br><br>
-<!--                <button onclick="https://alikefaceapp.herokuapp.com/">Home</button>-->
-            </div>
-        </form>
+        <div style="padding-right: 40px;">
+<!--            <form id="form" action="https://alikefaceapp.herokuapp.com/addpic" method="post" enctype="multipart/form-data">-->
+            <form id="form" action="http://127.0.0.1:3000/addpic" method="post" enctype="multipart/form-data">
+                <div style="padding-right: 0px;">
+                    Name: <input type="text" name="name" id="name_id" placeholder="Your Name" value="{{request.form['name']}}"/>
+                </div>
+                <div style="padding-right: 0px;">
+                    <label>Select Image: (Please Add 7 Pic for New User)</label>
+                    <input type="file" name="image" id="image_id">
+    <!--                <label for="image">Select Images...</label>-->
+                    <button type="submit" name="submit">1.Upload</button>
+                </div>
+                <!--            <div style="align:left;margin-left:100px">-->
+                <div style="padding-right: 0px;">
+
+<!--                    <button type="submit" name="submit1" formaction="https://alikefaceapp.herokuapp.com/insertembeds">Train</button>-->
+<!--                    <button type="submit" name="submit2" formaction="https://alikefaceapp.herokuapp.com/uploading">Upload Image Database</button>-->
+<!--                    <button type="submit" name="submit3" formaction="https://alikefaceapp.herokuapp.com/comparing">Compare</button>-->
+                    <button type="submit" name="submit1" formaction="http://127.0.0.1:3000/insertembeds">2.Train</button>
+                    <button type="submit" name="submit2" formaction="http://127.0.0.1:3000/uploading">3.Upload Image to Database</button>
+                    <button type="submit" name="submit3" formaction="http://127.0.0.1:3000/comparing">4.Compare</button>
+                    <br><br>
+                    <button type="submit" name="submit4" formaction="http://127.0.0.1:3000/deletion">Delete User Data</button>
+                    <br><br>
+<!--                    <button formaction="https://alikefaceapp.herokuapp.com/">Home</button>-->
+                    <button formaction="http://127.0.0.1:3000/">Home</button>
+                </div>
+            </form>
+        </div>
     </div>
     <br>
-    <div>
+    <div style="padding-right: 80px;">
         <p>{{var0}}</p>
         <p>{{var1}}</p>
         <p>{{var2}}</p>
-        <p>{{var3}}</p>
-        <p>{{var4}}</p>
+<!--        <p>{{var3}}</p>-->
+<!--        <p>{{var4}}</p>-->
+        <table>
+            {% if data0 %}
+            <tbody>
+                {% for x in data0.keys() %}
+                    <tr>
+                            {{ x }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    </tr>
+                {% endfor %}
+                {% for y in data0.values() %}
+                    <tr>
+                        {{ y[0] }}&nbsp&nbsp&nbsp
+                    </tr>
+                {% endfor %}
+                {% for y in data0.values() %}
+                    <tr>
+                        <img src="{{ url_for(y[1], filename='current.jpg') }}" alt="Matched Person" style="width: 100px;height: 100px">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <img src="./current.jpg" alt="Image not showing">
     </div>
 </body>
 </html>

@@ -53,10 +53,10 @@ def embeddings(dirname):
     for (i, imagePath) in enumerate(imagePaths):
         # extract the person name from the image path
         # print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
-        if (imagePath.split(os.path.sep)[-2]) == 'unknown':
+        if (imagePath.split(os.path.sep)[-2][4:]) == 'unknown':
             name = 'unknown'
         else:
-            name = imagePath.split(os.path.sep)[-2][8:]
+            name = imagePath.split(os.path.sep)[-2][12:]
         # name = imagePath.split('\\')[-2]
 
         # load the image, resize it to have a width of 600 pixels (while
@@ -82,7 +82,6 @@ def embeddings(dirname):
             # face, so find the bounding box with the largest probability
             i = np.argmax(detections[0, 0, :, 2])
             confidence = detections[0, 0, i, 2]
-
             # ensure that the detection with the largest probability also
             # means our minimum probability test (thus helping filter out
             # weak detections)

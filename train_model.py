@@ -37,13 +37,6 @@ def trainModel(data):
     recognizer = SVC(C=1.0, kernel="linear", probability=True)
     # recognizer = SVC(C=1.0, kernel="poly", degree=8, gamma="auto", probability=True)
     recognizer.fit(data["embeddings"], labels)
-    # cursor.execute("""INSERT INTO users(Embedding, LabelEncoder, Recognizer) VALUES(?,?,?)""",
-    #                        (pickle.dumps(data['embeddings']),
-    #                         pickle.dumps(le),
-    #                         pickle.dumps(recognizer)
-    #                         )
-    #                        )
-
     end = time.time()
     # print(end - start)
     return data, le, recognizer
