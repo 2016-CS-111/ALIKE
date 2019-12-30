@@ -17,6 +17,7 @@ def embeddings(dirname):
 
     # start = time.time()
     probability = 0.5
+    name = ""                                           #name inside loop
     # dirname = input("Enter User name: ")
 
     # load our serialized face detector from disk
@@ -48,15 +49,24 @@ def embeddings(dirname):
 
     # initialize the total number of faces processed
     total = 0
-
+    print("ImagePath: ", imagePaths)
     # loop over the image paths(this loop is same as simple forloop, it is also calculating i len as well)
     for (i, imagePath) in enumerate(imagePaths):
         # extract the person name from the image path
         # print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
-        if (imagePath.split(os.path.sep)[-2][4:]) == 'unknown':
+        if (imagePath.split(os.path.sep)[-2]) == 'unknown':         ### [-2] FOR Production && [-2][4:] FOR Development
             name = 'unknown'
+            print("IF: ", name)
+            if name == '':
+                break
+        elif imagePath.split(os.path.sep)[-2][8:] == dirname:
+            name = dirname             ### [8:] FOR Production(Heroku) AND [12:]FOR Development
+            print("ELIF: ", name)
+            if name == '':
+                break
         else:
-            name = imagePath.split(os.path.sep)[-2][12:]
+            print("ERROR!")
+            break
         # name = imagePath.split('\\')[-2]
 
         # load the image, resize it to have a width of 600 pixels (while

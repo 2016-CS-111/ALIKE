@@ -1,9 +1,7 @@
 from os import path
 import shutil
-import time
 import os
 import random
-# import werkzeug
 
 # Path for the main file location
 WORKING_PATH = os.getcwd()
@@ -22,14 +20,18 @@ def file_manage1(dirname):
 # Add Profile Pic to Folder
 #############################
 def file_manage2(img, dirname):
-    path_profile = WORKING_PATH + '/profile_' + dirname
+    path_profile = WORKING_PATH + '/static/profile_' + dirname
     path_dataset = WORKING_PATH + '/dataset_' + dirname
+
+    if not path.isdir(WORKING_PATH + "/static"):
+        os.mkdir(WORKING_PATH + '/static')
 
     if not path.isdir(path_dataset):
         os.mkdir(path_dataset)
 
     if not path.isdir(path_profile):
         os.mkdir(path_profile)
+
     list_of_files = os.listdir(path_dataset)
     # full_path_profile = [path_profile + '/{0}'.format(x) for x in os.listdir(path_profile)]
     full_path_dataset = [path_dataset + '/{0}'.format(x) for x in list_of_files]
@@ -83,32 +85,39 @@ def file_manage2(img, dirname):
 # Uploading Profile Pic to Database
 ####################################
 def file_manage3(dirname):
-    path_profile = WORKING_PATH + '/profile_' + dirname
+    path_profile = WORKING_PATH + '/static/profile_' + dirname
     return path_profile
 
 ###########################
 # Deletion of User Profile
 ###########################
 def file_manage4(name):
-    path_profile = WORKING_PATH + '/profile_' + name
+    path_profile = WORKING_PATH + '/static/profile_' + name
     path_dataset = WORKING_PATH + '/dataset_' + name
     profile = ''
     dataset = ''
     if os.path.isdir(path_profile):
-        shutil.rmtree(path_profile)
+        shutil.rmtree(path_profile, ignore_errors=True, onerror=None)
         profile = "Profile Directory Removed!"
     else:
         profile = "NOT FOUND: Profile directory not found"
     if os.path.isdir(path_dataset):
-        shutil.rmtree(path_dataset)
+        shutil.rmtree(path_dataset, ignore_errors=True, onerror=None)
         dataset = "Dataset Directory Removed!"
     else:
         dataset = "NOT FOUND: Dataset directory not found"
     return profile, dataset
 
+
 ############################
 # Comparing Returning Image
 ############################
 def file_manage5(dirname):
-    file_image = WORKING_PATH + "\\profile_" + dirname
+    if dirname:
+        file_image = WORKING_PATH + "/static/profile_" + dirname
+
+        # shutil.copytree(file_image, WORKING_PATH + "/static/" + dirname)
+    else:
+        return "NOT FOUND: (Comparing)file_manage5 'dirname'"
+
     return file_image

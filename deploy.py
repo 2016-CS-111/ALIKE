@@ -1,10 +1,12 @@
-from flask import Flask, jsonify, request, render_template, make_response, url_for
+from flask import Flask, jsonify, request, render_template, make_response
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 import file_manage
 import profile_img_upload
 import extract_embeddings
 import recognize
+import os
+import shutil
 import pickle
 
 app = Flask(__name__, template_folder='template')
@@ -15,7 +17,7 @@ FLASK SQLALCHEMY
 """
 
 # # change to dev or prod for development and production respectively
-ENV = 'prd'
+ENV = 'prod'
 if ENV == 'prod':
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hsgcsagngxnthk:93a627e4a44e8f1e7b6cedbc7dac1046df54b23ae1411bc12306f54c969be094@ec2-174-129-255-7.compute-1.amazonaws.com:5432/dduu961c9ahm1g'
@@ -67,14 +69,13 @@ with app.app_context():
     db.create_all()
 
 
-
 class Index(Resource):
     def get(self):
         print(jsonify({"message": "Get Method Called"}))
-        return make_response(render_template('index.html', data0={}))
+        return make_response(render_template('index.html'))
 
     def post(self):
-        return make_response(render_template('index.html', data0={}))
+        return make_response(render_template('index.html'))
 
 
 class InsertEmbeds(Resource):
@@ -93,11 +94,11 @@ class InsertEmbeds(Resource):
                                        pickle.dumps(recognizer))
                 db.session.add(db_data)
                 db.session.commit()
-                return make_response(render_template("index.html", var0="Model for a Person having name %s is added to database" % name, data0={}))
+                return make_response(render_template("index.html", var0="Model for a Person having name %s is added to database" % name))
             else:
-                return make_response(render_template("index.html", var0="ERROR: Same name user found in database while training", data0={}))
+                return make_response(render_template("index.html", var0="ERROR: Same name user found in database while training"))
         else:
-            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First", data0={}))
+            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First"))
 
 
 ##################################
@@ -117,11 +118,11 @@ class Uploading(Resource):
                 db_data = ProfilePicDataSet(name, pickle.dumps(vec1), imagePath)
                 db.session.add(db_data)
                 db.session.commit()
-                return make_response(render_template('index.html', var0="Image of {0} Uploaded to database".format(name), data0={}))
+                return make_response(render_template('index.html', var0="Image of {0} Uploaded to database".format(name)))
             else:
-                return make_response(render_template('index.html', var0="ERROR: Same Name while uploading to database!", data0={}))
+                return make_response(render_template('index.html', var0="ERROR: Same Name while uploading to database!"))
         else:
-            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First", data0={}))
+            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First"))
 
 
 ###############################
@@ -138,7 +139,7 @@ class AddPic(Resource):
             status = file_manage.file_manage2(img, dirname)
             return make_response(render_template('index.html', var0=status))
         else:
-            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First", data0={}))
+            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First"))
 
 
 ###########################################
@@ -152,21 +153,25 @@ class Comparing(Resource):
         # param = request.args
         # id = param.get('name')
         user_id = request.form['name']                            #need to have UserId from database as a primary key or something
+
         if user_id and not(db.session.query(UsersDataSet).filter_by(UserId=user_id).count() == 0) and not(db.session.query(ProfilePicDataSet).filter_by(UserId=user_id).count() == 0):
             dict1 = recognize.recognize(user_id, db)
-            image_path = []
+            full_image_path = []
+
+            # if os.path.isdir('static'):
+            #     shutil.rmtree(os.getcwd() + "/static", ignore_errors=True, onerror=None)
 
             for x in dict1.keys():
-                image_path.append(file_manage.file_manage5(x))                                  # {
-                                                                                                    # 'katrina': (96.09733319308081, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_katrina'),
-                                                                                                    # 'trisha': (60.28771775012819, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_trisha'),
-                                                                                                    # 'usama': (53.76725838211799, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_usama')
-                                                                                                # }
-            dict2 = dict(zip(dict1.keys(), zip(dict1.values(), image_path)))
-            print(dict2)
-            return make_response(render_template("index.html", data0=dict2))
+                full_image_path.append(file_manage.file_manage5(x) + "/current.jpg")              # {
+                # 'katrina': (96.09733319308081, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_katrina'),
+                # 'trisha': (60.28771775012819, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_trisha'),
+                # }
+
+            # dict2 = dict(zip(dict1.keys(), zip(dict1.values(), full_image_path)))
+            return make_response(render_template("index.html", data0=dict1))
         else:
             return make_response(render_template("index.html", var0="ERROR: Please make sure you entered your name and pics to input box and database correctly in sequence given", data0={}))
+
 
 ###########################
 # Deleting the whole user
@@ -178,25 +183,25 @@ class Deletion(Resource):
     def post(self):
         name = request.form['name']
         if name:
-            str1, str2 = "NULL", "NULL"# = file_manage.file_manage4(name)
+            str1, str2 = file_manage.file_manage4(name)
             if not db.session.query(UsersDataSet).filter_by(UserId=name).count() == 0:
                 db_data = UsersDataSet.query.filter_by(UserId=name).one()
                 db.session.delete(db_data)
                 db.session.commit()
             else:
-                return make_response(render_template("index.html", var0="NOT FOUND: Name in Users Database", var1=str1, var2=str2, data0={}))
+                return make_response(render_template("index.html", var0="NOT FOUND: Name in Users Database", var1=str1, var2=str2))
 
             if not db.session.query(ProfilePicDataSet).filter_by(UserId=name).count() == 0:
                 db_data = ProfilePicDataSet.query.filter_by(UserId=name).one()
                 db.session.delete(db_data)
                 db.session.commit()
             else:
-                return make_response(render_template("index.html", var0="NOT FOUND: Name in ProfilesPic  Database", var1=str1, var2=str2, data0={}))
+                return make_response(render_template("index.html", var0="NOT FOUND: Name in ProfilesPic  Database", var1=str1, var2=str2))
 
-            return make_response(render_template("index.html", var0="User Removed!", var1=str1, var2=str2, data0={}))
+            return make_response(render_template("index.html", var0="User Removed!", var1=str1, var2=str2))
 
         else:
-            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First", data0={}))
+            return make_response(render_template("index.html", var0="ERROR: Please Enter Your Name First"))
 
 
 ##########################
