@@ -156,16 +156,12 @@ class Comparing(Resource):
 
         if user_id and not(db.session.query(UsersDataSet).filter_by(UserId=user_id).count() == 0) and not(db.session.query(ProfilePicDataSet).filter_by(UserId=user_id).count() == 0):
             dict1 = recognize.recognize(user_id, db)
-            full_image_path = []
-
-            # if os.path.isdir('static'):
-            #     shutil.rmtree(os.getcwd() + "/static", ignore_errors=True, onerror=None)
-
-            for x in dict1.keys():
-                full_image_path.append(file_manage.file_manage5(x) + "/current.jpg")              # {
-                # 'katrina': (96.09733319308081, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_katrina'),
-                # 'trisha': (60.28771775012819, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_trisha'),
-                # }
+            # full_image_path = []
+            # for x in dict1.keys():
+            #     full_image_path.append(file_manage.file_manage5(x) + "/current.jpg")              # {
+            #     # 'katrina': (96.09733319308081, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_katrina'),
+            #     # 'trisha': (60.28771775012819, 'C:\\Users\\usama\\Desktop\\Heroku\\App/profile_trisha'),
+            #     # }
 
             # dict2 = dict(zip(dict1.keys(), zip(dict1.values(), full_image_path)))
             return make_response(render_template("index.html", data0=dict1))
