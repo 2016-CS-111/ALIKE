@@ -17,7 +17,7 @@ FLASK SQLALCHEMY
 """
 
 # # change to dev or prod for development and production respectively
-ENV = 'prod'
+ENV = 'dev'
 if ENV == 'prod':
     app.debug = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hsgcsagngxnthk:93a627e4a44e8f1e7b6cedbc7dac1046df54b23ae1411bc12306f54c969be094@ec2-174-129-255-7.compute-1.amazonaws.com:5432/dduu961c9ahm1g'

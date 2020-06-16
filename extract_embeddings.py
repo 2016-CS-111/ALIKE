@@ -49,23 +49,26 @@ def embeddings(dirname):
 
     # initialize the total number of faces processed
     total = 0
-    print("ImagePath: ", imagePaths)
+    # print("ImagePath: ", imagePaths)
+    # print('\n')
     # loop over the image paths(this loop is same as simple forloop, it is also calculating i len as well)
     for (i, imagePath) in enumerate(imagePaths):
         # extract the person name from the image path
         # print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
-        if (imagePath.split(os.path.sep)[-2]) == 'unknown':         ### [-2] FOR Production && [-2][4:] FOR Development
+        if (imagePath.split(os.path.sep)[-2][13:]) == 'unknown':         ### [-2] FOR Production && [-2][13:] FOR Development
             name = 'unknown'
-            print("IF: ", name)
+            # print("IF: ", name)
             if name == '':
                 break
-        elif imagePath.split(os.path.sep)[-2][8:] == dirname:
-            name = dirname             ### [8:] FOR Production(Heroku) AND [12:]FOR Development
-            print("ELIF: ", name)
+            # print(name)
+        elif imagePath.split(os.path.sep)[-2][21:] == dirname:
+            name = dirname             ### [-2][8:] FOR Production(Heroku) AND [-2][21:]FOR Development
+            # print("ELIF: ", name)
             if name == '':
                 break
         else:
             print("ERROR!")
+            exit(1)
             break
         # name = imagePath.split('\\')[-2]
 
