@@ -1,4 +1,9 @@
+Production Mode:
+Check Out! 
+"https://alikefaceapp.herokuapp.com/"
 
+
+Development Mode:
 Install libraries using python 3.7.5:
 ->pip install -r requirements.txt
 ->Also install PostgreSQL
