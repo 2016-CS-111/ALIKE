@@ -16,5 +16,5 @@ Run Code(Pycharm):
 
 
 Interface:
--> Write name and "1.Upload". Upload upto 7 pics
+-> Write name and "1.Upload". Upload upto 7 pics. (Press "1.Upload" button everytime you upload your pic)
 -> Press "2.Train" button and "3.Upload Image to Database" and then "4.Compare" for comparison
